@@ -1,0 +1,160 @@
+{
+  "devices": [
+    {
+      "id": "a65af81a-06bf-4616-acef-2523c09fe33c",
+      "short_id": "a65af81a",
+      "hostname": "test-andrea",
+      "description": null,
+      "state": "active",
+      "tags": [],
+      "billing_cycle": "hourly",
+      "user": "root",
+      "iqn": "iqn.2016-09.net.packet:device.a65af81a",
+      "locked": false,
+      "bonding_mode": 5,
+      "created_at": "2016-09-23T09:39:34Z",
+      "updated_at": "2016-09-23T09:44:04Z",
+      "operating_system": {
+        "slug": "ubuntu_14_04_image",
+        "name": "Ubuntu 14.04 LTS",
+        "distro": "ubuntu",
+        "version": "14.04",
+        "provisionable_on": [
+          "baremetal_0",
+          "baremetal_1",
+          "baremetal_2",
+          "baremetal_3"
+        ]
+      },
+      "facility": {
+        "id": "8e6470b3-b75e-47d1-bb93-45b225750975",
+        "name": "Amsterdam, NL",
+        "code": "ams1",
+        "features": [
+          "storage"
+        ],
+        "address": null
+      },
+      "project": {
+        "href": "/projects/93907f48-adfe-43ed-ad89-0e6e83721a54"
+      },
+      "project_lite": {
+        "href": "/projects/93907f48-adfe-43ed-ad89-0e6e83721a54"
+      },
+      "volumes": [],
+      "ip_addresses": [
+        {
+          "id": "4ae5321c-95f4-4fc2-9d7e-d70c3b33d821",
+          "address_family": 4,
+          "netmask": "255.255.255.254",
+          "public": true,
+          "cidr": 31,
+          "management": true,
+          "manageable": true,
+          "assigned_to": {
+            "href": "/devices/a65af81a-06bf-4616-acef-2523c09fe33c"
+          },
+          "network": "147.75.100.24",
+          "address": "147.75.100.25",
+          "gateway": "147.75.100.24",
+          "href": "/ips/4ae5321c-95f4-4fc2-9d7e-d70c3b33d821"
+        },
+        {
+          "id": "f308150b-1204-4793-8d08-2e1ef74777e4",
+          "address_family": 6,
+          "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe",
+          "public": true,
+          "cidr": 127,
+          "management": true,
+          "manageable": true,
+          "assigned_to": {
+            "href": "/devices/a65af81a-06bf-4616-acef-2523c09fe33c"
+          },
+          "network": "2604:1380:2000:7e00::",
+          "address": "2604:1380:2000:7e00::1",
+          "gateway": "2604:1380:2000:7e00::",
+          "href": "/ips/f308150b-1204-4793-8d08-2e1ef74777e4"
+        },
+        {
+          "id": "d79f68ad-29b2-4113-ba5e-f69e23d4846b",
+          "address_family": 4,
+          "netmask": "255.255.255.254",
+          "public": false,
+          "cidr": 31,
+          "management": true,
+          "manageable": true,
+          "assigned_to": {
+            "href": "/devices/a65af81a-06bf-4616-acef-2523c09fe33c"
+          },
+          "network": "10.80.64.0",
+          "address": "10.80.64.1",
+          "gateway": "10.80.64.0",
+          "href": "/ips/d79f68ad-29b2-4113-ba5e-f69e23d4846b"
+        }
+      ],
+      "plan": {
+        "id": "e69c0169-4726-46ea-98f1-939c9e8a3607",
+        "slug": "baremetal_0",
+        "name": "Type 0",
+        "description": "Our Type 0 configuration is a general use \"cloud killer\" server, with a Intel Atom 2.4Ghz processor and 8GB of RAM.",
+        "line": "baremetal",
+        "specs": {
+          "cpus": [
+            {
+              "count": 1,
+              "type": "Intel Atom C2550 @ 2.4Ghz"
+            }
+          ],
+          "memory": {
+            "total": "8GB"
+          },
+          "drives": [
+            {
+              "count": 1,
+              "size": "80GB",
+              "type": "SSD"
+            }
+          ],
+          "nics": [
+            {
+              "count": 2,
+              "type": "1Gbps"
+            }
+          ],
+          "features": {
+            "raid": false,
+            "txt": true
+          }
+        },
+        "available_in": [
+          {
+            "href": "/facilities/2b70eb8f-fa18-47c0-aba7-222a842362fd"
+          },
+          {
+            "href": "/facilities/8e6470b3-b75e-47d1-bb93-45b225750975"
+          }
+        ],
+        "pricing": {
+          "hour": 0.05
+        }
+      },
+      "userdata": "",
+      "root_password": "l<4d7#}uif",
+      "href": "/devices/a65af81a-06bf-4616-acef-2523c09fe33c"
+    }
+  ],
+  "meta": {
+    "first": {
+      "href": "/projects/93907f48-adfe-43ed-ad89-0e6e83721a54/devices?page=1"
+    },
+    "previous": null,
+    "self": {
+      "href": "/projects/93907f48-adfe-43ed-ad89-0e6e83721a54/devices?page=1"
+    },
+    "next": null,
+    "last": {
+      "href": "/projects/93907f48-adfe-43ed-ad89-0e6e83721a54/devices?page=1"
+    },
+    "total": 1
+  }
+}

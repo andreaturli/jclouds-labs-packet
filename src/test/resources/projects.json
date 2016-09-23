@@ -1,0 +1,63 @@
+{
+  "projects": [
+    {
+      "id": "93907f48-adfe-43ed-ad89-0e6e83721a54",
+      "name": "Cloudsoft CCS Testing",
+      "created_at": "2016-09-15T08:50:58Z",
+      "updated_at": "2016-09-22T19:06:27Z",
+      "max_devices": {
+        "baremetal_0": 10,
+        "baremetal_1": 5,
+        "baremetal_3": 1,
+        "baremetal_2": 1,
+        "storage_1": 2,
+        "storage_2": 2
+      },
+      "members": [
+        {
+          "href": "/users/343345fe-18b3-46a3-9b9c-e4a2fe88ccbd"
+        },
+        {
+          "href": "/users/ad711bc3-6333-449a-a405-23ca81f38c00"
+        }
+      ],
+      "memberships": [
+        {
+          "href": "/memberships/1ce7c9d9-d11f-47f2-b5a6-d1221338ad69"
+        },
+        {
+          "href": "/memberships/8a00c05b-3ddc-41c3-8dd7-4a3d5984ecec"
+        }
+      ],
+      "invitations": [
+        {
+          "href": "/invitations/dafa104e-1875-4e3e-9b31-525b7d605103"
+        },
+        {
+          "href": "/invitations/7466665d-af9d-42eb-b731-eb5c903076da"
+        }
+      ],
+      "payment_method": {
+        "href": "/payment-methods/3dad9f02-5ec8-4d2d-a179-d78acbb7e94d"
+      },
+      "devices": [],
+      "ssh_keys": [],
+      "volumes": [],
+      "href": "/projects/93907f48-adfe-43ed-ad89-0e6e83721a54"
+    }
+  ],
+  "meta": {
+    "first": {
+      "href": "/projects?page=1"
+    },
+    "previous": null,
+    "self": {
+      "href": "/projects?page=1"
+    },
+    "next": null,
+    "last": {
+      "href": "/projects?page=1"
+    },
+    "total": 1
+  }
+}
