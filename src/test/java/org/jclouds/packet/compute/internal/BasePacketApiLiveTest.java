@@ -92,7 +92,7 @@ public class BasePacketApiLiveTest extends BaseApiLiveTest<PacketApi> {
    }
 
 //   protected Facility firstAvailableRegion() {
-//      return api.getFacilityApi().list().concat().firstMatch(new Predicate<Facility>() {
+//      return api.facilityApi().list().concat().firstMatch(new Predicate<Facility>() {
 //         @Override
 //         public boolean apply(Facility input) {
 //            return input.available();

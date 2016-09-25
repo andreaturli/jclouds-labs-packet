@@ -16,12 +16,12 @@
  */
 package org.jclouds.packet.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import org.jclouds.json.SerializedNames;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * {"slug":"centos_7","name":"CentOS 7 (legacy)","distro":"centos","version":"7","provisionable_on":["baremetal_0","baremetal_1","baremetal_3"]}
@@ -33,12 +33,12 @@ public abstract class OperatingSystem {
     public abstract String name();
     public abstract String distro();
     public abstract String version();
-    public abstract List<String> provisionableOn();
+    public abstract Set<String> provisionableOn();
 
     @SerializedNames({"slug", "name", "distro", "version", "provisionable_on"})
-    public static OperatingSystem create(String slug, String name, String distro, String version, List<String> provisionableOn) {
+    public static OperatingSystem create(String slug, String name, String distro, String version, Set<String> provisionableOn) {
         return new AutoValue_OperatingSystem(slug, name, distro, version,
-                provisionableOn == null ? ImmutableList.<String> of() : ImmutableList.copyOf(provisionableOn)
+                provisionableOn == null ? ImmutableSet.<String> of() : ImmutableSet.copyOf(provisionableOn)
         );
     }
 

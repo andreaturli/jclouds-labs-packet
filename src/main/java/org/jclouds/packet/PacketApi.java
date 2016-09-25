@@ -25,6 +25,7 @@ import org.jclouds.packet.features.FacilityApi;
 import org.jclouds.packet.features.OperatingSystemApi;
 import org.jclouds.packet.features.PlanApi;
 import org.jclouds.packet.features.ProjectApi;
+import org.jclouds.packet.features.SshKeyApi;
 import org.jclouds.rest.annotations.Delegate;
 
 /**
@@ -41,7 +42,7 @@ public interface PacketApi extends Closeable {
     * @see <a href="https://www.packet.net/help/api/#page:projects,header:projects-projects">docs</a>
     */
    @Delegate
-   ProjectApi getProjectApi();
+   ProjectApi projectApi();
 
    /**
     * This Packet API provides all of the devices
@@ -49,7 +50,7 @@ public interface PacketApi extends Closeable {
     * @see <a href="https://www.packet.net/help/api/#page:devices">docs</a>
     */
    @Delegate
-   DeviceApi getDeviceApi(@PathParam("projectId") String projectId);
+   DeviceApi deviceApi(@PathParam("projectId") String projectId);
 
    /**
     * This Packet API provides all of the facilities
@@ -57,7 +58,7 @@ public interface PacketApi extends Closeable {
     * @see <a href="https://www.packet.net/help/api/#page:devices,header:devices-operating-systems">docs</a>
     */
    @Delegate
-   FacilityApi getFacilityApi();
+   FacilityApi facilityApi();
 
    /**
     * This Packet API provides all of the plans
@@ -65,7 +66,7 @@ public interface PacketApi extends Closeable {
     * @see <a href="https://www.packet.net/help/api/#page:devices,header:devices-plans">docs</a>
     */
    @Delegate
-   PlanApi getPlanApi();
+   PlanApi planApi();
 
    /**
     * This Packet API provides all of the operating systems
@@ -73,6 +74,13 @@ public interface PacketApi extends Closeable {
     * @see <a href="https://www.packet.net/help/api/#page:devices,header:devices-operating-systems">docs</a>
     */
    @Delegate
-   OperatingSystemApi getOperatingSystemApi();
+   OperatingSystemApi operatingSystemApi();
 
+   /**
+    * This Packet API provides all of the operating systems
+    *
+    * @see <a href="https://www.packet.net/help/api/#page:ssh-keys">docs</a>
+    */
+   @Delegate
+   SshKeyApi sshKeyApi();
 }

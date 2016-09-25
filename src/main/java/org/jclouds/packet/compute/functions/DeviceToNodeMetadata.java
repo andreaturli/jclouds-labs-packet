@@ -18,28 +18,21 @@ package org.jclouds.packet.compute.functions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Map;
-import java.util.Set;
-
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.jclouds.collect.Memoized;
-import org.jclouds.compute.domain.Hardware;
-import org.jclouds.compute.domain.Image;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.domain.NodeMetadataBuilder;
 import org.jclouds.compute.functions.GroupNamingConvention;
 import org.jclouds.compute.reference.ComputeServiceConstants;
-import org.jclouds.domain.Location;
 import org.jclouds.logging.Logger;
 import org.jclouds.packet.domain.Device;
 import org.jclouds.packet.domain.IpAddress;
 
 import com.google.common.base.Function;
-import com.google.common.base.Supplier;
+import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 
 /**
@@ -52,21 +45,19 @@ public class DeviceToNodeMetadata implements Function<Device, NodeMetadata> {
     @Named(ComputeServiceConstants.COMPUTE_LOGGER)
     protected Logger logger = Logger.NULL;
 
-    private final Supplier<Map<String, ? extends Image>> images;
-    private final Supplier<Map<String, ? extends Hardware>> hardwares;
-    private final Supplier<Set<? extends Location>> locations;
+    private final PlanToHardware planToHardware;
+    private final OperatingSystemToImage operatingSystemToImage;
+    private final FacilityToLocation facilityToLocation;
     private final Function<Device.State, NodeMetadata.Status> toPortableStatus;
     private final GroupNamingConvention groupNamingConvention;
 
     @Inject
-    DeviceToNodeMetadata(Supplier<Map<String, ? extends Image>> images,
-                         Supplier<Map<String, ? extends Hardware>> hardwares,
-                         @Memoized Supplier<Set<? extends Location>> locations,
+    DeviceToNodeMetadata(PlanToHardware planToHardware, OperatingSystemToImage operatingSystemToImage, FacilityToLocation facilityToLocation,
                          Function<Device.State, NodeMetadata.Status> toPortableStatus,
                          GroupNamingConvention.Factory groupNamingConvention) {
-        this.images = checkNotNull(images, "images cannot be null");
-        this.hardwares = checkNotNull(hardwares, "hardwares cannot be null");
-        this.locations = checkNotNull(locations, "locations cannot be null");
+        this.planToHardware = checkNotNull(planToHardware, "planToHardware cannot be null");
+        this.operatingSystemToImage = checkNotNull(operatingSystemToImage, "operatingSystemToImage cannot be null");
+        this.facilityToLocation = checkNotNull(facilityToLocation, "facilityToLocation cannot be null");
         this.toPortableStatus = checkNotNull(toPortableStatus, "toPortableStatus cannot be null");
         this.groupNamingConvention = checkNotNull(groupNamingConvention, "groupNamingConvention cannot be null")
                 .createWithoutPrefix();
@@ -75,30 +66,25 @@ public class DeviceToNodeMetadata implements Function<Device, NodeMetadata> {
     @Override
     public NodeMetadata apply(Device input) {
         NodeMetadataBuilder builder = new NodeMetadataBuilder();
-        builder.ids(String.valueOf(input.id()));
+        builder.ids(input.id());
         builder.name(input.hostname());
         builder.hostname(input.hostname());
         builder.group(groupNamingConvention.extractGroup(input.hostname()));
-
-//        builder.hardware(getHardware(input.sizeSlug()));
-//        builder.location(getLocation(input.region()));
-//
-//        Optional<? extends Image> image = findImage(input.image(), input.region().slug());
-//        if (image.isPresent()) {
-//            builder.imageId(image.get().getId());
-//            builder.operatingSystem(image.get().getOperatingSystem());
-//        } else {
-//            logger.info(">> image with id %s for droplet %s was not found. "
-//                            + "This might be because the image that was used to create the droplet has a new id.",
-//                    input.operatingSystem().slug()), input.id());
-//        }
-
-//        builder.backendStatus(input.status().name());
+        builder.location(facilityToLocation.apply(input.facility()));
+        builder.hardware(planToHardware.apply(input.plan()));
+        builder.imageId(input.operatingSystem().slug());
+        builder.operatingSystem(operatingSystemToImage.apply(input.operatingSystem()).getOperatingSystem());
         builder.status(toPortableStatus.apply(input.state()));
 
         if (!input.ipAddresses().isEmpty()) {
             builder.publicAddresses(FluentIterable
                     .from(input.ipAddresses())
+                    .filter(new Predicate<IpAddress>() {
+                        @Override
+                        public boolean apply(IpAddress input) {
+                            return input.publicAddress();
+                        }
+                    })
                     .transform(new Function<IpAddress, String>() {
                         @Override
                         public String apply(final IpAddress input) {
@@ -107,10 +93,15 @@ public class DeviceToNodeMetadata implements Function<Device, NodeMetadata> {
                     })
             );
         }
-
         if (!input.ipAddresses().isEmpty()) {
             builder.privateAddresses(FluentIterable
                     .from(input.ipAddresses())
+                    .filter(new Predicate<IpAddress>() {
+                        @Override
+                        public boolean apply(IpAddress input) {
+                            return !input.publicAddress();
+                        }
+                    })
                     .transform(new Function<IpAddress, String>() {
                         @Override
                         public String apply(final IpAddress input) {

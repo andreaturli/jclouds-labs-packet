@@ -18,14 +18,21 @@ package org.jclouds.packet.compute.functions;
 
 import static org.jclouds.compute.domain.OperatingSystem.builder;
 
+import java.util.Set;
+
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.jclouds.collect.Memoized;
 import org.jclouds.compute.domain.Image;
 import org.jclouds.compute.domain.ImageBuilder;
+import org.jclouds.domain.Location;
+import org.jclouds.packet.domain.Distribution;
 import org.jclouds.packet.domain.OperatingSystem;
 import org.jclouds.packet.domain.Plan;
 
 import com.google.common.base.Function;
+import com.google.common.base.Supplier;
 
 /**
  * Transforms an {@link Plan} to the jclouds portable model.
@@ -33,17 +40,23 @@ import com.google.common.base.Function;
 @Singleton
 public class OperatingSystemToImage implements Function<OperatingSystem, Image> {
 
+    private final Supplier<Set<? extends Location>> locations;
+
+    @Inject
+    OperatingSystemToImage(@Memoized Supplier<Set<? extends Location>> locations) {
+        this.locations = locations;
+    }
+
     @Override
     public Image apply(final OperatingSystem input) {
         ImageBuilder builder = new ImageBuilder();
-        builder.id(input.slug());
+        builder.ids(input.slug());
         builder.name(input.name());
         builder.description(input.name());
         builder.status(Image.Status.AVAILABLE);
-
         builder.operatingSystem(builder()
                 .name(input.distro())
-                // TODO .family(input)
+                .family(Distribution.fromValue(input.distro()).osFamily())
                 .description(input.name())
                 .version(input.version())
                 .is64Bit(true)

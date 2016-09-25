@@ -2,7 +2,6 @@ package org.jclouds.packet.features;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -18,7 +17,7 @@ import org.jclouds.Fallbacks.EmptyListOnNotFoundOr404;
 import org.jclouds.Fallbacks.NullOnNotFoundOr404;
 import org.jclouds.Fallbacks.VoidOnNotFoundOr404;
 import org.jclouds.javax.annotation.Nullable;
-import org.jclouds.packet.domain.Device;
+import org.jclouds.packet.domain.SshKey;
 import org.jclouds.packet.filters.AddXAuthTokenToRequest;
 import org.jclouds.packet.functions.URIParser;
 import org.jclouds.rest.annotations.Fallback;
@@ -29,39 +28,35 @@ import org.jclouds.rest.annotations.ResponseParser;
 import org.jclouds.rest.annotations.SelectJson;
 import org.jclouds.rest.binders.BindToJsonPayload;
 
-@Path("/projects/{projectId}/devices")
+@Path("/ssh-keys")
 @Consumes(MediaType.APPLICATION_JSON)
 @RequestFilters(AddXAuthTokenToRequest.class)
-public interface DeviceApi {
+public interface SshKeyApi {
 
     /**
-     * List all devices
+     * List all ssh keys
      */
-    @Named("device:list")
+    @Named("sshKey:list")
     @GET
-    @SelectJson("devices")
+    @SelectJson("ssh-keys")
     @Fallback(EmptyListOnNotFoundOr404.class)
-    List<Device> list();
+    List<SshKey> list();
 
-    @Named("device:create")
+    @Named("sshKey:create")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @MapBinder(BindToJsonPayload.class)
     @ResponseParser(URIParser.class)
-    URI create(@PayloadParam("hostname") String hostname, @PayloadParam("plan") String plan,
-               @PayloadParam("billing_cycle") String billingCycle, @PayloadParam("facility") String facility,
-               @PayloadParam("features") Map<String, String> features, @PayloadParam("operating_system") String operatingSystem,
-               @PayloadParam("locked") boolean locked, @PayloadParam("userdata") String userdata, @PayloadParam("tags") List<String> tags
-                );
+    URI create(@PayloadParam("label") String label, @PayloadParam("key") String key);
 
-    @Named("device:get")
+    @Named("sshKey:get")
     @GET
     @Path("/{id}")
     @Fallback(NullOnNotFoundOr404.class)
     @Nullable
-    Device get(@PathParam("id") String id);
+    SshKey get(@PathParam("id") String id);
 
-    @Named("device:delete")
+    @Named("sshKey:delete")
     @DELETE
     @Path("/{id}")
     @Fallback(VoidOnNotFoundOr404.class)

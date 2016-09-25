@@ -40,12 +40,13 @@ public class PlanToHardware implements Function<Plan, Hardware> {
     @Override
     public Hardware apply(Plan plan) {
         HardwareBuilder builder = new HardwareBuilder()
-                .id(plan.slug())
+                .ids(plan.slug())
                 .name(plan.name())
                 .hypervisor("none")
                 .processors(getProcessors(plan))
-                .ram(getMemory(plan));
-        builder.volumes(getVolumes(plan));
+                .ram(getMemory(plan))
+                // TODO .location from plan.availableIn
+                .volumes(getVolumes(plan));
         return builder.build();
     }
 

@@ -24,7 +24,7 @@ import com.google.auto.value.AutoValue;
 public abstract class IpAddress {
 
     public abstract String id();
-    public abstract String addressFamily();
+    public abstract Integer addressFamily();
     public abstract String netmask();
     public abstract Boolean publicAddress();
     public abstract Integer cidr();
@@ -39,7 +39,7 @@ public abstract class IpAddress {
     @SerializedNames({"id", "address_family", "netmask", "public", "cidr", "management", "manageable", "assigned_to", "network", "address", "gateway", "href"})
     public static IpAddress create(
             String id,
-            String addressFamily,
+            Integer addressFamily,
             String netmask,
             Boolean publicAddress,
             Integer cidr,

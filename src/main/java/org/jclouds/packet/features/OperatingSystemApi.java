@@ -6,9 +6,11 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Fallbacks;
+import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.packet.domain.OperatingSystem;
 import org.jclouds.packet.filters.AddXAuthTokenToRequest;
 import org.jclouds.rest.annotations.Fallback;
@@ -29,4 +31,10 @@ public interface OperatingSystemApi {
     @Fallback(Fallbacks.EmptyListOnNotFoundOr404.class)
     List<OperatingSystem> list();
 
+    @Named("operatingsystem:get")
+    @GET
+    @Path("/{id}")
+    @Fallback(Fallbacks.NullOnNotFoundOr404.class)
+    @Nullable
+    OperatingSystem get(@PathParam("id") String id);
 }

@@ -27,6 +27,7 @@ import org.jclouds.compute.domain.Image;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.compute.reference.ComputeServiceConstants;
+import org.jclouds.compute.strategy.CreateNodesInGroupThenAddToSet;
 import org.jclouds.domain.Credentials;
 import org.jclouds.domain.Location;
 import org.jclouds.location.Provider;
@@ -38,6 +39,7 @@ import org.jclouds.packet.compute.functions.FacilityToLocation;
 import org.jclouds.packet.compute.functions.OperatingSystemToImage;
 import org.jclouds.packet.compute.functions.PlanToHardware;
 import org.jclouds.packet.compute.options.PacketTemplateOptions;
+import org.jclouds.packet.compute.strategy.CreateSshKeysThenCreateNodes;
 import org.jclouds.packet.domain.Device;
 import org.jclouds.packet.domain.Facility;
 import org.jclouds.packet.domain.OperatingSystem;
@@ -73,9 +75,11 @@ public class PacketComputeServiceContextModule extends
       bind(new TypeLiteral<Function<Device.State, NodeMetadata.Status>>() {
       }).to(DeviceStateToStatus.class);
       bind(TemplateOptions.class).to(PacketTemplateOptions.class);
-
       install(new LocationsFromComputeServiceAdapterModule<Device, Plan, OperatingSystem, Facility>() {
       });
+
+      bind(CreateNodesInGroupThenAddToSet.class).to(CreateSshKeysThenCreateNodes.class);
+
    }
 
    @Provides
@@ -84,7 +88,7 @@ public class PacketComputeServiceContextModule extends
                                                               @Provider final Supplier<Credentials> creds,
                                                                ComputeServiceConstants.Timeouts timeouts,
                                                                ComputeServiceConstants.PollPeriod pollPeriod) {
-      return retry(new DeviceInStatusPredicate(api, creds.get().credential, Device.State.ACTIVE), timeouts.nodeRunning,
+      return retry(new DeviceInStatusPredicate(api, creds.get().identity, Device.State.ACTIVE), timeouts.nodeRunning,
               pollPeriod.pollInitialPeriod, pollPeriod.pollMaxPeriod);
    }
 
@@ -104,7 +108,7 @@ public class PacketComputeServiceContextModule extends
       @Override
       public boolean apply(String input) {
          checkNotNull(input, "device id");
-         Device device = api.getDeviceApi(projectId).get(input);
+         Device device = api.deviceApi(projectId).get(input);
          return device != null && state == device.state();
       }
    }
