@@ -33,7 +33,7 @@ import com.google.common.collect.ImmutableList;
 public abstract class Device {
 
     public enum State {
-        PROVISIONING, ACTIVE;
+        PROVISIONING, QUEUED, ACTIVE;
 
         public static State fromValue(String value) {
             Optional<State> state = Enums.getIfPresent(State.class, value.toUpperCase());
@@ -94,7 +94,7 @@ public abstract class Device {
 
     ) {
         return new AutoValue_Device(id, shortId, hostname, description, state,
-                tags == null ? ImmutableList. <String> of() : ImmutableList.copyOf(tags),
+                tags == null ? ImmutableList.<String> of() : ImmutableList.copyOf(tags),
                 billingCycle, user, iqn, locked, bondingMode, createdAt, updatedAt, operatingSystem, facility, project, projectLite,
                 volumes == null ? ImmutableList.of() : ImmutableList.copyOf(volumes),
                 ipAddresses == null ? ImmutableList.<IpAddress>of() : ImmutableList.copyOf(ipAddresses),

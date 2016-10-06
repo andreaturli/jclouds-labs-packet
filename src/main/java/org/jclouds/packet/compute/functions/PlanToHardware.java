@@ -28,8 +28,7 @@ import org.jclouds.packet.domain.Specs;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-
-import autovalue.shaded.com.google.common.common.collect.Lists;
+import com.google.common.collect.Lists;
 
 /**
  * Transforms an {@link Plan} to the jclouds portable model.

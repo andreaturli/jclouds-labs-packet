@@ -16,8 +16,6 @@
  */
 package org.jclouds.packet.domain;
 
-import static com.google.common.collect.ImmutableList.copyOf;
-
 import java.util.List;
 import java.util.Map;
 
