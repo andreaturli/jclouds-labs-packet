@@ -48,7 +48,7 @@ public class PacketComputeServiceLiveTest extends BaseComputeServiceLiveTest {
 
    @Override
    public void testOptionToNotBlock() throws Exception {
-      // DigitalOcean ComputeService implementation has to block until the node
+      // Packet ComputeService implementation has to block until the node
       // is provisioned, to be able to return it.
    }
 

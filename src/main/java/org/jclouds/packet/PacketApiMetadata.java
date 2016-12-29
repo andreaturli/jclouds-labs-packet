@@ -17,6 +17,7 @@
 package org.jclouds.packet;
 
 import static org.jclouds.compute.config.ComputeServiceProperties.TEMPLATE;
+import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_RUNNING;
 import static org.jclouds.reflect.Reflection2.typeToken;
 
 import java.net.URI;
@@ -53,6 +54,7 @@ public class PacketApiMetadata extends BaseHttpApiMetadata<PacketApi> {
    public static Properties defaultProperties() {
       Properties properties = BaseHttpApiMetadata.defaultProperties();
       properties.put(TEMPLATE, "osFamily=UBUNTU,os64Bit=true,osVersionMatches=14.*");
+      properties.put(TIMEOUT_NODE_RUNNING, 300000); // 5 mins
       return properties;
    }
 

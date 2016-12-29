@@ -84,7 +84,7 @@ public class PacketComputeServiceContextModule extends
 
    @Provides
    @Named(TIMEOUT_NODE_RUNNING)
-   protected Predicate<String> provideDropletRunningPredicate(final PacketApi api,
+   protected Predicate<String> provideDeviceRunningPredicate(final PacketApi api,
                                                               @Provider final Supplier<Credentials> creds,
                                                                ComputeServiceConstants.Timeouts timeouts,
                                                                ComputeServiceConstants.PollPeriod pollPeriod) {

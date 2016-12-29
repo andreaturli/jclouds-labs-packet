@@ -17,8 +17,6 @@
 package org.jclouds.packet.compute.internal;
 
 import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_RUNNING;
-import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_SUSPENDED;
-import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_TERMINATED;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Properties;
@@ -29,7 +27,6 @@ import org.jclouds.compute.config.ComputeServiceProperties;
 import org.jclouds.packet.PacketApi;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableSet;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -38,10 +35,7 @@ import com.google.inject.name.Names;
 
 public class BasePacketApiLiveTest extends BaseApiLiveTest<PacketApi> {
 
-   private Predicate<Integer> actionCompleted;
-   private Predicate<Integer> nodeTerminated;
-   private Predicate<Integer> nodeStopped;
-   private Predicate<Integer> nodeRunning;
+   private Predicate<String> deviceRunning;
 
    public BasePacketApiLiveTest() {
       provider = "packet";
@@ -59,36 +53,13 @@ public class BasePacketApiLiveTest extends BaseApiLiveTest<PacketApi> {
    @Override
    protected PacketApi create(Properties props, Iterable<Module> modules) {
       Injector injector = newBuilder().modules(modules).overrides(props).buildInjector();
-      actionCompleted = injector.getInstance(Key.get(new TypeLiteral<Predicate<Integer>>(){}));
-      nodeTerminated = injector.getInstance(Key.get(new TypeLiteral<Predicate<Integer>>(){},
-            Names.named(TIMEOUT_NODE_TERMINATED)));
-      nodeStopped = injector.getInstance(Key.get(new TypeLiteral<Predicate<Integer>>(){},
-            Names.named(TIMEOUT_NODE_SUSPENDED)));
-      nodeRunning = injector.getInstance(Key.get(new TypeLiteral<Predicate<Integer>>(){},
+      deviceRunning = injector.getInstance(Key.get(new TypeLiteral<Predicate<String>>(){},
             Names.named(TIMEOUT_NODE_RUNNING)));
       return injector.getInstance(PacketApi.class);
    }
 
-   @Override
-   protected Iterable<Module> setupModules() {
-      return ImmutableSet.<Module> builder().addAll(super.setupModules())
-            .build();
-   }
-
-   protected void assertActionCompleted(int actionId) {
-      assertTrue(actionCompleted.apply(actionId), String.format("Action %s did not complete in the configured timeout", actionId));
-   }
-
-   protected void assertNodeStopped(int dropletId) {
-      assertTrue(nodeStopped.apply(dropletId), String.format("Droplet %s did not stop in the configured timeout", dropletId));
-   }
-
-   protected void assertNodeRunning(int dropletId) {
-      assertTrue(nodeRunning.apply(dropletId), String.format("Droplet %s did not start in the configured timeout", dropletId));
-   }
-
-   protected void assertNodeTerminated(int dropletId) {
-      assertTrue(nodeTerminated.apply(dropletId), String.format("Droplet %s was not terminated in the configured timeout", dropletId));
+   protected void assertNodeRunning(String deviceId) {
+      assertTrue(deviceRunning.apply(deviceId), String.format("Droplet %s did not start in the configured timeout", deviceId));
    }
 
 //   protected Facility firstAvailableRegion() {
