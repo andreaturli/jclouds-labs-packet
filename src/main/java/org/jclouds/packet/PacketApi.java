@@ -25,7 +25,6 @@ import org.jclouds.packet.features.FacilityApi;
 import org.jclouds.packet.features.OperatingSystemApi;
 import org.jclouds.packet.features.PlanApi;
 import org.jclouds.packet.features.ProjectApi;
-import org.jclouds.packet.features.SshKeyApi;
 import org.jclouds.rest.annotations.Delegate;
 
 /**
@@ -75,13 +74,5 @@ public interface PacketApi extends Closeable {
     */
    @Delegate
    OperatingSystemApi operatingSystemApi();
-
-   /**
-    * This Packet API provides all of the operating systems
-    *
-    * @see <a href="https://www.packet.net/help/api/#page:ssh-keys">docs</a>
-    */
-   @Delegate
-   SshKeyApi sshKeyApi();
 
 }
