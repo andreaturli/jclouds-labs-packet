@@ -27,6 +27,7 @@ import org.jclouds.compute.domain.Image;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.compute.reference.ComputeServiceConstants;
+import org.jclouds.compute.strategy.CreateNodesInGroupThenAddToSet;
 import org.jclouds.domain.Credentials;
 import org.jclouds.domain.Location;
 import org.jclouds.location.Provider;
@@ -38,6 +39,7 @@ import org.jclouds.packet.compute.functions.FacilityToLocation;
 import org.jclouds.packet.compute.functions.OperatingSystemToImage;
 import org.jclouds.packet.compute.functions.PlanToHardware;
 import org.jclouds.packet.compute.options.PacketTemplateOptions;
+import org.jclouds.packet.compute.strategy.CreateSshKeysThenCreateNodes;
 import org.jclouds.packet.domain.Device;
 import org.jclouds.packet.domain.Facility;
 import org.jclouds.packet.domain.OperatingSystem;
@@ -75,6 +77,7 @@ public class PacketComputeServiceContextModule extends
       install(new LocationsFromComputeServiceAdapterModule<Device, Plan, OperatingSystem, Facility>() {
       });
       bind(TemplateOptions.class).to(PacketTemplateOptions.class);
+      bind(CreateNodesInGroupThenAddToSet.class).to(CreateSshKeysThenCreateNodes.class);
    }
 
    @Provides

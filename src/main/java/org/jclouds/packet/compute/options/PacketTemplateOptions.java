@@ -17,7 +17,6 @@
 package org.jclouds.packet.compute.options;
 
 import static com.google.common.base.Objects.equal;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.jclouds.compute.options.TemplateOptions;
 
@@ -31,11 +30,8 @@ public class PacketTemplateOptions extends TemplateOptions implements Cloneable 
 
    private String userData;
 
-   /**
-    * Enables a private network interface if the region supports private networking.
-    */
    public PacketTemplateOptions userData(String userData) {
-      this.userData = checkNotNull(userData, "userdata");
+      this.userData = userData;
       return this;
    }
 

@@ -111,6 +111,8 @@ public class DeviceToNodeMetadata implements Function<Device, NodeMetadata> {
             );
         }
 
+        builder.tags(input.tags());
+
         return builder.build();
     }
 }

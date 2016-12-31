@@ -112,7 +112,7 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
       LoginCredentials defaultCredentials = LoginCredentials.builder()
               .user("root")
               //.password(device.rootPassword())
-              .privateKey(templateOptions.getPrivateKey())
+              .privateKey(templateOptions.getLoginPrivateKey())
               .build();
 
       return new NodeAndInitialCredentials<Device>(device, device.id(), defaultCredentials);
