@@ -49,7 +49,7 @@ public class PacketTemplateBuilderLiveTest extends BaseTemplateBuilderLiveTest {
 
    @Override
    protected Set<String> getIso3166Codes() {
-      return ImmutableSet.<String> of();
+      return ImmutableSet.of();
    }
 
 }

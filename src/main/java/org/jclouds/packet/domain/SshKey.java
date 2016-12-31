@@ -16,6 +16,7 @@
  */
 package org.jclouds.packet.domain;
 
+import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.json.SerializedNames;
 
 import com.google.auto.value.AutoValue;
@@ -24,13 +25,13 @@ import com.google.auto.value.AutoValue;
 public abstract class SshKey {
 
     @AutoValue
-    public abstract static class User {
+    public abstract static class Owner {
 
         public abstract String href();
 
         @SerializedNames({ "href" })
-        public static User create(String href) {
-            return new AutoValue_SshKey_User(href);
+        public static Owner create(String href) {
+            return new AutoValue_SshKey_Owner(href);
         }
     }
 
@@ -40,12 +41,12 @@ public abstract class SshKey {
     public abstract String fingerprint();
     public abstract String createdAt();
     public abstract String updatedAt();
-    public abstract User user();
+    @Nullable public abstract Owner owner();
     public abstract String href();
 
-    @SerializedNames({"id", "label", "key", "fingerprint", "created_at", "updated_at", "user", "href"})
-    public static SshKey create(String id, String label, String key, String fingerprint, String createdAt, String updatedAt, User user, String href) {
-        return new AutoValue_SshKey(id, label, key, fingerprint, createdAt, updatedAt, user, href);
+    @SerializedNames({"id", "label", "key", "fingerprint", "created_at", "updated_at", "owner", "href"})
+    public static SshKey create(String id, String label, String key, String fingerprint, String createdAt, String updatedAt, Owner owner, String href) {
+        return new AutoValue_SshKey(id, label, key, fingerprint, createdAt, updatedAt, owner, href);
     }
 
     SshKey() {}

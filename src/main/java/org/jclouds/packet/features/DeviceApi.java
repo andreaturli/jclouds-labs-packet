@@ -34,6 +34,7 @@ import org.jclouds.Fallbacks.EmptyListOnNotFoundOr404;
 import org.jclouds.Fallbacks.NullOnNotFoundOr404;
 import org.jclouds.Fallbacks.VoidOnNotFoundOr404;
 import org.jclouds.javax.annotation.Nullable;
+import org.jclouds.packet.domain.ActionType;
 import org.jclouds.packet.domain.Device;
 import org.jclouds.packet.filters.AddXAuthTokenToRequest;
 import org.jclouds.packet.functions.URIParser;
@@ -82,4 +83,11 @@ public interface DeviceApi {
     @Path("/{id}")
     @Fallback(VoidOnNotFoundOr404.class)
     void delete(@PathParam("id") String id);
+
+    @Named("device:actions")
+    @POST
+    @Path("/devices/{id}/actions")
+    @MapBinder(BindToJsonPayload.class)
+    void actions(@PathParam("id") String id, @PayloadParam("type") ActionType type);
+
 }

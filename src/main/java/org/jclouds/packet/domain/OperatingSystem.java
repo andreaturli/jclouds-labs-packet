@@ -24,20 +24,21 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * {"slug":"centos_7","name":"CentOS 7 (legacy)","distro":"centos","version":"7","provisionable_on":["baremetal_0","baremetal_1","baremetal_3"]}
+ * {"id":"06e21644-a769-11e6-80f5-76304dec7eb7","slug":"alpine_3","name":"Alpine 3","distro":"alpine","version":"3","provisionable_on":[]}
  */
 @AutoValue
 public abstract class OperatingSystem {
 
+    public abstract String id();
     public abstract String slug();
     public abstract String name();
     public abstract String distro();
     public abstract String version();
     public abstract Set<String> provisionableOn();
 
-    @SerializedNames({"slug", "name", "distro", "version", "provisionable_on"})
-    public static OperatingSystem create(String slug, String name, String distro, String version, Set<String> provisionableOn) {
-        return new AutoValue_OperatingSystem(slug, name, distro, version,
+    @SerializedNames({"id", "slug", "name", "distro", "version", "provisionable_on"})
+    public static OperatingSystem create(String id, String slug, String name, String distro, String version, Set<String> provisionableOn) {
+        return new AutoValue_OperatingSystem(id, slug, name, distro, version,
                 provisionableOn == null ? ImmutableSet.<String> of() : ImmutableSet.copyOf(provisionableOn)
         );
     }

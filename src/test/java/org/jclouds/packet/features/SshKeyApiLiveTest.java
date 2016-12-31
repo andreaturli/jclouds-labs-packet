@@ -26,6 +26,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.jclouds.packet.compute.internal.BasePacketApiLiveTest;
+import org.jclouds.packet.compute.utils.URIs;
 import org.jclouds.packet.domain.SshKey;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -37,31 +38,31 @@ import com.google.common.io.Resources;
 @Test(groups = "live", testName = "SshSshKeyApiLiveTest")
 public class SshKeyApiLiveTest extends BasePacketApiLiveTest {
 
-   private SshKey dsa;
+   private URI sshUri;
 
+   @Test
    public void testCreateSshKey() {
-      URI sshUri = api().create("jclouds-test-dsa", loadSshKey("/ssh-dsa.pub"));
+      sshUri = api().create("jclouds-test-dsa", loadSshKey("/ssh-dsa.pub"));
       assertNotNull(sshUri);
    }
    
    @Test(dependsOnMethods = "testCreateSshKey")
    public void testListSshKeys() {
       List<SshKey> keys = api().list();
-      assertTrue(keys.size() >= 2, "At least the two created keys must exist");
+      assertTrue(keys.size() >= 1, "At least the two created keys must exist");
    }
    
    @Test(dependsOnMethods = "testCreateSshKey")
    public void testGetSshKey() {
-      assertEquals(api().get(dsa.id()).fingerprint(), dsa.fingerprint());
+      assertEquals(api().get(URIs.toId(sshUri)).key(), loadSshKey("/ssh-dsa.pub"));
    }
    
-
    @AfterClass(alwaysRun = true)
    public void testDeleteSshKey() {
-      if (dsa != null) {
-         api().delete(dsa.id());
+      if (sshUri != null) {
+         api().delete(URIs.toId(sshUri));
          List<SshKey> keys = api().list();
-         assertFalse(keys.contains(dsa), "dsa key must not be present in list");
+         assertFalse(keys.contains(api().get(URIs.toId(sshUri))), "ssh key must not be present in list");
       }
    }
    

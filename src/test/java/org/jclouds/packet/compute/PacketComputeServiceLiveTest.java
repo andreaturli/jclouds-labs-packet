@@ -16,12 +16,10 @@
  */
 package org.jclouds.packet.compute;
 
-import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.internal.BaseComputeServiceLiveTest;
 import org.jclouds.sshj.config.SshjSshClientModule;
 import org.testng.annotations.Test;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Module;
 
@@ -51,15 +49,4 @@ public class PacketComputeServiceLiveTest extends BaseComputeServiceLiveTest {
       // Packet ComputeService implementation has to block until the node
       // is provisioned, to be able to return it.
    }
-
-   @Override
-   protected void checkTagsInNodeEquals(NodeMetadata node, ImmutableSet<String> tags) {
-      // We encode the tags in the user data but the DigitalOcean API does not return it
-   }
-
-   @Override
-   protected void checkUserMetadataContains(NodeMetadata node, ImmutableMap<String, String> userMetadata) {
-      // The DigitalOcean API does not return the user data
-   }
-
 }

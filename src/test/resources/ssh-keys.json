@@ -1,0 +1,76 @@
+{
+  "ssh_keys": [
+    {
+      "id": "e7321cb8-ab75-4201-942a-c4c9d74b6ef5",
+      "label": "twin1-andrea",
+      "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQColXFFdUr2dIl5PVLSDMvF9+AqgIKUGYlkQ5Mbi0lyniKfB6m09VdaiZCSQmTO/DbcnQQ/zd+8dXIIsjRI+jZO5LluiM/W88O2sXdkcHT2QQwwiRHPPLAr/N7MIB5//xYo+TBffF2r0eO653W15g/tZqiXU0hSjxhLIkS52Y13XPANW4a4g7Wd0GG5vPhs2C7k6Ef/ri3lvV4a5TF0WBd/Ntg/8jBWYTEWRjnL/QTHl+TYZDnJHRtULku5Ly07KNQmKXXCIks5KhzEVSirDqr2WsZxcNCKtb8a0MuOmucKvlyBxSb9VsmVHYMclWpiV4A1c2aGNE1zevU3c1X7LvYx",
+      "fingerprint": "22:f1:6b:29:19:26:82:07:8e:29:e9:a5:e8:f9:df:9d",
+      "created_at": "2016-12-30T15:30:59Z",
+      "updated_at": "2016-12-30T17:33:59Z",
+      "owner": {
+        "href": "/users/ad711bc3-6333-449a-a405-23ca81f38c00"
+      },
+      "href": "/ssh-keys/e7321cb8-ab75-4201-942a-c4c9d74b6ef5"
+    },
+    {
+      "id": "2c070ba5-8522-4ffc-a421-c6e4dd5162e8",
+      "label": "twin0-andrea",
+      "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDuzvwuqyPxF9NH95gLMKXDabrYS9/0krP2sGya5I3AgCrFn2mN1LOgA+Ar82bSm86ZStxUt25tVt9e0i5Iu0wxQdr87+hmL0QEufSvLyz1ZDcuII6kcmraFQ1XGI+qRcpJDzk+nsEdlU44vJ+fWsGw1yZSENlIsmmkUGUJm/yX0eac2C8Y1PjkYV+NskKGglGWKLmCLryJ9t40R+DL8pNs58Aq+EMIDamuWKw7aLQcJj82K1T66M4UGi1iNr3MM5XNA35hAEnj8stcIWXp+4Bbv4CwHt4U8QinOdvko/r72yBiWSpxTkWYtcguzjX4PGddi8YPAv4RjIYzxfCgnUQD",
+      "fingerprint": "2d:49:41:c9:de:da:0d:92:12:ad:40:73:68:03:bf:45",
+      "created_at": "2016-12-30T15:30:58Z",
+      "updated_at": "2016-12-30T17:33:59Z",
+      "owner": {
+        "href": "/users/ad711bc3-6333-449a-a405-23ca81f38c00"
+      },
+      "href": "/ssh-keys/2c070ba5-8522-4ffc-a421-c6e4dd5162e8"
+    },
+    {
+      "id": "2e1adb44-8638-4329-a92d-6a5181b1dea1",
+      "label": "packet--andrea",
+      "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzLTqEAQ1ylL4jWbA4Z20jPb94zgYRpGxDFMaE+bwVPPmQl6tp7XckgPs4nbQjrbB7n0CkBIQZGzThTDEa7aLnTkP94D/6k38Mrti3IF566eCJPAlOvXGY9CCVpYZIxPukdsvuuQMI8gYa0Bez4HGIa7nlTkzNgeohHul1+GUxY0a68n9J8lxGiZm0jzal/vbbnX6QB5GWQfu+kUbvMQMXf+/KiVmcSOy9U8SivpvBsuK+nT4/G0WWMLWUmcl0Sdw9f1ml6IdrM6u6WSbvVIsPxbwfV2L2uqqIFUhophOhql8/pI6sCl9Hu4FLjFdsMmPOEiYmkdy1L30YMToiZfb/",
+      "fingerprint": "32:b7:dd:d3:79:a4:44:f2:74:fa:f8:70:a4:08:94:9e",
+      "created_at": "2016-12-30T17:32:53Z",
+      "updated_at": "2016-12-30T17:33:59Z",
+      "owner": {
+        "href": "/users/ad711bc3-6333-449a-a405-23ca81f38c00"
+      },
+      "href": "/ssh-keys/2e1adb44-8638-4329-a92d-6a5181b1dea1"
+    },
+    {
+      "id": "bfd5b88c-609f-4d7f-973a-2f37d9ece861",
+      "label": "andrea",
+      "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNnvPZ25wZK19grrbal6R5JP1hLRBUuNh86KxZVMAFkGd5ouVSgO9dFajHZ45Q4mbaTkdOiqf7otMLDzkaztEa7oLK7Jso0Y0LOi+nT4gf38rvbEF5mq069G9b9XqlNleaGnpLuTN54iEK8c4TWZxIJqgelHEHhjp7V1asmilBbpZDmwA5cTt9vGJIhqA/BptKH3folZKeAQjRa1ZRSwSQUnk9rBKn4PKSRDojVa9A9jKt4qboJh5q7ZjtE8z+665F/4TgLzElTXUA8+uUFGpuynMSmQEt301e18dXAl+vBr8fMiThcoVVbdVdqdjXsw75fMXPAgqhjrw8k3+0/4P9 andrea@bigmac.local",
+      "fingerprint": "88:8a:7d:0f:db:fb:f4:2a:63:2e:d3:4b:1f:7f:0b:12",
+      "created_at": "2016-09-23T09:39:27Z",
+      "updated_at": "2016-12-30T17:33:59Z",
+      "owner": {
+        "href": "/users/ad711bc3-6333-449a-a405-23ca81f38c00"
+      },
+      "href": "/ssh-keys/bfd5b88c-609f-4d7f-973a-2f37d9ece861"
+    },
+    {
+      "id": "5b4293c1-f45e-4571-8ff8-2c0be1ed117f",
+      "label": "twin1-andrea",
+      "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCHIrvVvpyG+DQqSz4P2vV6dmw/im7uvoZNYlsArqFRsz39vhurFU7ZbAprpNKNYSUseqwFpHuEhiWKV4m1m2ic2olsqGK7+qYp1qXyhCu06kvrZWuzQY56Esgo58fVmGLchaTJVpFuhykS7pRG/qZ3t/19AXCYyWhQ6yM5JQnUiNfVDz7clHTnvE+hpiJZM+7KBNx58HPUKOklmxp68yjVQms35N35qir5OC0qKG5+2wpFoEOoheILQs5efMFuzdCtNH3eD2LDUx722tnJmXZlvhzUhAbDSNiuhKBUPf16kkP6hhV0I6VrY9LrEFyTvKdFBOWrTRCqRM3pG/ZLoHWD",
+      "fingerprint": "ba:1a:7b:ca:4b:1b:44:b6:f4:63:1a:15:82:3a:a7:b1",
+      "created_at": "2016-12-30T14:27:54Z",
+      "updated_at": "2016-12-30T17:33:59Z",
+      "owner": {
+        "href": "/users/ad711bc3-6333-449a-a405-23ca81f38c00"
+      },
+      "href": "/ssh-keys/5b4293c1-f45e-4571-8ff8-2c0be1ed117f"
+    },
+    {
+      "id": "d0d96c96-20d1-4cf8-a61c-809321ad4aa9",
+      "label": "twin0-andrea",
+      "key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDD32lUYSnA68jD8g4CoF76Z/+VwLMdKddJnXwtyetn9JhCQq7IpQlFP0OixDo6whjW5MNcAnEPxWHwuxcmmuqKGkrFnDziEmW+vkgWoUJrU6VMLqTwWM2IEefsEBiz+oTDfiiKzi80tYXTv39zNcJ8nwRiKjhkE4oPHwfF6QIOEvi/YpNfCz9o25wyA2x0pqJFxjLPkq88EAMCjG82G+gWxRoVRLC4Kt5LiveED6yLCta0L2yJulD1FhHMVKjeT5sOkR0p8OYZ9mphqfbMRlCa8GYh4SHMl1Ifbe/yI9b/89xgKtWp4/1/87S1prdY6b3v7L0CwvjG29FlERBxYRdl",
+      "fingerprint": "f9:46:c6:84:2d:d7:ee:8b:8b:ba:ce:ec:3e:a0:af:2a",
+      "created_at": "2016-12-30T14:27:54Z",
+      "updated_at": "2016-12-30T17:33:59Z",
+      "owner": {
+        "href": "/users/ad711bc3-6333-449a-a405-23ca81f38c00"
+      },
+      "href": "/ssh-keys/d0d96c96-20d1-4cf8-a61c-809321ad4aa9"
+    }
+  ]
+}

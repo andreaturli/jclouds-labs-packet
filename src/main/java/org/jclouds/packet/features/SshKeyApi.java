@@ -54,7 +54,7 @@ public interface SshKeyApi {
      */
     @Named("sshKey:list")
     @GET
-    @SelectJson("ssh-keys")
+    @SelectJson("ssh_keys")
     @Fallback(EmptyListOnNotFoundOr404.class)
     List<SshKey> list();
 

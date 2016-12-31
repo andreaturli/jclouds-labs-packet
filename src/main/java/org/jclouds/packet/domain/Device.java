@@ -91,7 +91,6 @@ public abstract class Device {
                                 String rootPassword,
                                 String userdata,
                                 String href
-
     ) {
         return new AutoValue_Device(id, shortId, hostname, description, state,
                 tags == null ? ImmutableList.<String> of() : ImmutableList.copyOf(tags),

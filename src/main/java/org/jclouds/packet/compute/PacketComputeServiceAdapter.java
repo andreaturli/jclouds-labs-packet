@@ -38,17 +38,18 @@ import org.jclouds.domain.LoginCredentials;
 import org.jclouds.location.Provider;
 import org.jclouds.logging.Logger;
 import org.jclouds.packet.PacketApi;
-import org.jclouds.packet.compute.options.PacketTemplateOptions;
 import org.jclouds.packet.compute.utils.URIs;
+import org.jclouds.packet.domain.ActionType;
 import org.jclouds.packet.domain.BillingCycle;
 import org.jclouds.packet.domain.Device;
 import org.jclouds.packet.domain.Facility;
 import org.jclouds.packet.domain.OperatingSystem;
 import org.jclouds.packet.domain.Plan;
-import org.jclouds.packet.domain.Project;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -76,9 +77,7 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
 
    @Override
    public NodeAndInitialCredentials<Device> createNodeWithGroupEncodedIntoName(String group, String name, Template template) {
-      PacketTemplateOptions templateOptions = template.getOptions().as(PacketTemplateOptions.class);
 
-      // TODO Packet specific options
       Map<String, String> features = Maps.newHashMap();
       BillingCycle billingCycle = BillingCycle.HOURLY;
       boolean locked = false;
@@ -89,7 +88,9 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
       String facility = template.getLocation().getId();
       String operatingSystem = template.getImage().getId();
 
-      URI deviceUriLocation = api.deviceApi(projectId).create(name, plan,
+      URI deviceUriLocation = api.deviceApi(projectId).create(
+              name, 
+              plan,
               billingCycle.value(),
               facility,
               features,
@@ -100,15 +101,22 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
       String deviceId = URIs.toId(deviceUriLocation);
       nodeRunningPredicate.apply(deviceId);
       Device device = api.deviceApi(projectId).get(deviceId);
-      LoginCredentials defaultCredentials = LoginCredentials.builder().user("root")
-              .privateKey(templateOptions.getLoginPrivateKey()).build();
+      LoginCredentials defaultCredentials = LoginCredentials.builder()
+              .user("root")
+              .password(device.rootPassword())
+              .build();
 
       return new NodeAndInitialCredentials<Device>(device, device.id(), defaultCredentials);
    }
 
    @Override
    public Iterable<Plan> listHardwareProfiles() {
-      return api.planApi().list();
+      return Iterables.filter(api.planApi().list(), new Predicate<Plan>() {
+         @Override
+         public boolean apply(Plan input) {
+            return input.line().equals("baremetal");
+         }
+      });
    }
 
    @Override
@@ -117,8 +125,17 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
    }
 
    @Override
-   public OperatingSystem getImage(String id) {
-      return api.operatingSystemApi().get(id);
+   public OperatingSystem getImage(final String id) {
+
+      Optional<OperatingSystem> first = Iterables.tryFind(api.operatingSystemApi().list(), new Predicate<OperatingSystem>() {
+         @Override
+         public boolean apply(OperatingSystem input) {
+            return input.slug().equals(id);
+         }
+      });
+
+      if (!first.isPresent()) throw new IllegalStateException("Cannot find image with the required slug " + id);
+      return first.get();
    }
 
    @Override
@@ -138,26 +155,24 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
 
    @Override
    public void rebootNode(String id) {
-
+      if (api.deviceApi(projectId).get(id).state() != Device.State.ACTIVE) {
+         api.deviceApi(projectId).actions(id, ActionType.REBOOT);
+      }
    }
 
    @Override
    public void resumeNode(String id) {
-
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public void suspendNode(String id) {
-
+      throw new UnsupportedOperationException();
    }
 
    @Override
    public Iterable<Device> listNodes() {
-      List<Device> devices = Lists.newArrayList();
-      for (Project project : api.projectApi().list()) {
-         devices.addAll(api.deviceApi(project.id()).list());
-      }
-      return devices;
+     return api.deviceApi(projectId).list();
    }
 
    @Override
@@ -167,6 +182,7 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
          public boolean apply(Device device) {
             return contains(ids, String.valueOf(device.id()));
          }
-      });   }
+      });   
+   }
 
 }
