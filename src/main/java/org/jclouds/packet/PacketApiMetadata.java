@@ -26,7 +26,6 @@ import java.util.Properties;
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.packet.compute.config.PacketComputeServiceContextModule;
-import org.jclouds.packet.config.PacketComputeParserModule;
 import org.jclouds.packet.config.PacketHttpApiModule;
 import org.jclouds.rest.internal.BaseHttpApiMetadata;
 
@@ -71,7 +70,6 @@ public class PacketApiMetadata extends BaseHttpApiMetadata<PacketApi> {
                  .view(typeToken(ComputeServiceContext.class))
                  .defaultModules(ImmutableSet.<Class<? extends Module>>builder()
                        .add(PacketHttpApiModule.class)
-                       .add(PacketComputeParserModule.class)
                        .add(PacketComputeServiceContextModule.class)
                        .build());
       }

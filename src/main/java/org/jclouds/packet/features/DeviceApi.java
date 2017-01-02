@@ -19,6 +19,7 @@ package org.jclouds.packet.features;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -68,8 +69,7 @@ public interface DeviceApi {
     URI create(@PayloadParam("hostname") String hostname, @PayloadParam("plan") String plan,
                @PayloadParam("billing_cycle") String billingCycle, @PayloadParam("facility") String facility,
                @PayloadParam("features") Map<String, String> features, @PayloadParam("operating_system") String operatingSystem,
-               @PayloadParam("locked") boolean locked, @PayloadParam("userdata") String userdata, @PayloadParam("tags") List<String> tags
-                );
+               @PayloadParam("locked") boolean locked, @PayloadParam("userdata") String userdata, @PayloadParam("tags") Set<String> tags);
 
     @Named("device:get")
     @GET

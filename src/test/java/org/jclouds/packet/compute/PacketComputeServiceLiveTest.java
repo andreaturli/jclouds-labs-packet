@@ -16,10 +16,18 @@
  */
 package org.jclouds.packet.compute;
 
+import java.util.Properties;
+
+import org.jclouds.compute.ComputeServiceContext;
+import org.jclouds.compute.domain.NodeMetadata;
+import org.jclouds.compute.domain.Template;
+import org.jclouds.compute.domain.TemplateBuilder;
 import org.jclouds.compute.internal.BaseComputeServiceLiveTest;
+import org.jclouds.rest.AuthorizationException;
 import org.jclouds.sshj.config.SshjSshClientModule;
 import org.testng.annotations.Test;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Module;
 
@@ -39,14 +47,43 @@ public class PacketComputeServiceLiveTest extends BaseComputeServiceLiveTest {
    }
 
    @Override
-   protected Iterable<Module> setupModules() {
-      return ImmutableSet.<Module> builder().addAll(super.setupModules())
-            .build();
+   protected Template buildTemplate(TemplateBuilder templateBuilder) {
+      return super.buildTemplate(templateBuilder);
+   }
+
+   @Override
+   @Test(expectedExceptions = AuthorizationException.class)
+   public void testCorrectAuthException() throws Exception {
+      ComputeServiceContext context = null;
+      try {
+         Properties overrides = setupProperties();
+         overrides.setProperty(provider + ".identity", "MOM:MA");
+         overrides.setProperty(provider + ".credential", "MIA");
+         context = newBuilder()
+                 .modules(ImmutableSet.of(getLoggingModule(), credentialStoreModule))
+                 .overrides(overrides)
+                 .build(ComputeServiceContext.class);
+         // replace listNodes with listImages as it doesn't require `projectId`
+         context.getComputeService().listImages();
+      } catch (AuthorizationException e) {
+         throw e;
+      } catch (RuntimeException e) {
+         e.printStackTrace();
+         throw e;
+      } finally {
+         if (context != null)
+            context.close();
+      }
    }
 
    @Override
    public void testOptionToNotBlock() throws Exception {
       // Packet ComputeService implementation has to block until the node
       // is provisioned, to be able to return it.
+   }
+
+   @Override
+   protected void checkUserMetadataContains(NodeMetadata node, ImmutableMap<String, String> userMetadata) {
+      // The Packet API does not return the user data
    }
 }

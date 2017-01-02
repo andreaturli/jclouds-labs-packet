@@ -64,7 +64,7 @@ public class BasePacketApiMockTest {
    public void start() throws IOException {
       server = new MockWebServer();
       server.play();
-      ApiContext<PacketApi> ctx = ContextBuilder.newBuilder("Packet")
+      ApiContext<PacketApi> ctx = ContextBuilder.newBuilder("packet")
             .credentials("", X_AUTHORIZATION_TOKEN)
             .endpoint(url(""))
             .modules(modules)
@@ -128,7 +128,7 @@ public class BasePacketApiMockTest {
       assertEquals(request.getMethod(), method);
       assertEquals(request.getPath(), path);
       assertEquals(request.getHeader("Accept"), "application/json");
-      assertEquals(request.getHeader("Authorization"), "Bearer " + X_AUTHORIZATION_TOKEN);
+      assertEquals(request.getHeader("X-Auth-Token"), X_AUTHORIZATION_TOKEN);
       return request;
    }
 

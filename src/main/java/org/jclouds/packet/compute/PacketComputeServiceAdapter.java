@@ -22,8 +22,8 @@ import static com.google.common.collect.Iterables.filter;
 import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_RUNNING;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -38,6 +38,7 @@ import org.jclouds.domain.LoginCredentials;
 import org.jclouds.location.Provider;
 import org.jclouds.logging.Logger;
 import org.jclouds.packet.PacketApi;
+import org.jclouds.packet.compute.options.PacketTemplateOptions;
 import org.jclouds.packet.compute.utils.URIs;
 import org.jclouds.packet.domain.ActionType;
 import org.jclouds.packet.domain.BillingCycle;
@@ -50,7 +51,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -78,18 +78,24 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
    @Override
    public NodeAndInitialCredentials<Device> createNodeWithGroupEncodedIntoName(String group, String name, Template template) {
 
+      PacketTemplateOptions templateOptions = template.getOptions().as(PacketTemplateOptions.class);
+      checkNotNull(templateOptions.getLoginPrivateKey(), "login privateKey must not be null");
+      // TODO make it configurable
       Map<String, String> features = Maps.newHashMap();
+      // TODO make it configurable
       BillingCycle billingCycle = BillingCycle.HOURLY;
+      // TODO make it configurable
       boolean locked = false;
-      String userdata = "";
-      List<String> tags = Lists.newArrayList();
+
+      String userdata = Optional.fromNullable(templateOptions.getUserData()).or("");
+      Set<String> tags = templateOptions.getTags();
 
       String plan = template.getHardware().getId();
       String facility = template.getLocation().getId();
       String operatingSystem = template.getImage().getId();
 
       URI deviceUriLocation = api.deviceApi(projectId).create(
-              name, 
+              name,
               plan,
               billingCycle.value(),
               facility,
@@ -101,9 +107,12 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
       String deviceId = URIs.toId(deviceUriLocation);
       nodeRunningPredicate.apply(deviceId);
       Device device = api.deviceApi(projectId).get(deviceId);
+
+
       LoginCredentials defaultCredentials = LoginCredentials.builder()
               .user("root")
-              .password(device.rootPassword())
+              //.password(device.rootPassword())
+              .privateKey(templateOptions.getPrivateKey())
               .build();
 
       return new NodeAndInitialCredentials<Device>(device, device.id(), defaultCredentials);
@@ -182,7 +191,7 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
          public boolean apply(Device device) {
             return contains(ids, String.valueOf(device.id()));
          }
-      });   
+      });
    }
 
 }
