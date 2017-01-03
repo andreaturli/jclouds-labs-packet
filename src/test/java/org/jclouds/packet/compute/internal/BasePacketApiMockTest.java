@@ -19,6 +19,7 @@ package org.jclouds.packet.compute.internal;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static org.jclouds.Constants.PROPERTY_MAX_RETRIES;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
@@ -81,7 +82,9 @@ public class BasePacketApiMockTest {
    }
    
    protected Properties overrides() {
-      return new Properties();
+      Properties properties = new Properties();
+      properties.put(PROPERTY_MAX_RETRIES, "0"); // Do not retry
+      return properties;
    }
 
    protected String url(String path) {

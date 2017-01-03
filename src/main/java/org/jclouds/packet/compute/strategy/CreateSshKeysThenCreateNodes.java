@@ -116,10 +116,6 @@ public class CreateSshKeysThenCreateNodes extends CreateNodesWithGroupEncodedInt
             createKeyPairForPublicKeyInOptionsAndAddToSet(options, generatedSshKeyIds);
         }
 
-        // Set all keys (the provided and the auto-generated) in the options object so the
-        // PacketComputeServiceAdapter adds them all
-        // TODO options.sshKeyIds(Sets.union(generatedSshKeyIds, options.getSshKeyIds()));
-
         Map<?, ListenableFuture<Void>> responses = super.execute(group, count, template, goodNodes, badNodes,
                 customizationResponses);
 
@@ -134,11 +130,8 @@ public class CreateSshKeysThenCreateNodes extends CreateNodesWithGroupEncodedInt
     private void createKeyPairForPublicKeyInOptionsAndAddToSet(PacketTemplateOptions options,
                                                                Set<String> generatedSshKeyIds) {
         logger.debug(">> checking if the key pair already exists...");
-        // TODO
 
-      //PublicKey userKey = sshKeyToPublicKey.apply("");//
-
-        PublicKey userKey = null;
+        PublicKey userKey;
         Iterable<String> parts = Splitter.on(' ').split(options.getPublicKey());
         checkArgument(size(parts) >= 2, "bad format, should be: [ssh-rsa|ssh-dss] AAAAB3...");
         String type = get(parts, 0);

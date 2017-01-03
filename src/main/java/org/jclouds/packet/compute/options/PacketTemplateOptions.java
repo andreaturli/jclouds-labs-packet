@@ -17,24 +17,55 @@
 package org.jclouds.packet.compute.options;
 
 import static com.google.common.base.Objects.equal;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Map;
 
 import org.jclouds.compute.options.TemplateOptions;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Custom options for the Packet API.
  */
 public class PacketTemplateOptions extends TemplateOptions implements Cloneable {
 
-   private String userData;
+   private Map<String, String> features = ImmutableMap.of();
+   private boolean locked = false;
+   private String billingCycle = "hourly";
+   private String userData = "";
 
+   public PacketTemplateOptions features(Map<String, String> features) {
+      this.features = ImmutableMap.copyOf(checkNotNull(features, "features cannot be null"));
+      return this;
+   }
+   
+   public PacketTemplateOptions locked(boolean locked) {
+      this.locked = locked;
+      return this;
+   }
+
+   public PacketTemplateOptions billingCycle(String billingCycle) {
+      this.billingCycle = billingCycle;
+      return this;
+   }
+   
    public PacketTemplateOptions userData(String userData) {
       this.userData = userData;
       return this;
    }
 
+   public Map<String, String> getFeatures() {
+      return features;
+   }
+   public boolean isLocked() {
+      return locked;
+   }
+   public String getBillingCycle() {
+      return billingCycle;
+   }
    public String getUserData() {
       return userData;
    }
@@ -51,13 +82,16 @@ public class PacketTemplateOptions extends TemplateOptions implements Cloneable 
       super.copyTo(to);
       if (to instanceof PacketTemplateOptions) {
          PacketTemplateOptions eTo = PacketTemplateOptions.class.cast(to);
+         eTo.features(features);
+         eTo.locked(locked);
+         eTo.billingCycle(billingCycle);
          eTo.userData(userData);
       }
    }
 
    @Override
    public int hashCode() {
-      return Objects.hashCode(super.hashCode(), userData);
+      return Objects.hashCode(super.hashCode(), features, locked, billingCycle, userData);
    }
 
    @Override
@@ -72,18 +106,46 @@ public class PacketTemplateOptions extends TemplateOptions implements Cloneable 
          return false;
       }
       PacketTemplateOptions other = (PacketTemplateOptions) obj;
-      return super.equals(other) && equal(this.userData, other.userData);
+      return super.equals(other) && equal(this.locked, other.locked) && equal(this.billingCycle, other.billingCycle) && equal(this.userData, other.userData) && equal(this.features, other.features);
    }
 
    @Override
    public ToStringHelper string() {
       ToStringHelper toString = super.string().omitNullValues();
+      if (!features.isEmpty()) {
+         toString.add("features", features);
+      }      toString.add("locked", locked);
+      toString.add("billingCycle", billingCycle);
       toString.add("userData", userData);
       return toString;
    }
 
    public static class Builder {
 
+      /**
+       * @see PacketTemplateOptions#features
+       */
+      public static PacketTemplateOptions features(Map<String, String> features) {
+         PacketTemplateOptions options = new PacketTemplateOptions();
+         return options.features(features);
+      }
+      
+      /**
+       * @see PacketTemplateOptions#locked
+       */
+      public static PacketTemplateOptions locked(boolean locked) {
+         PacketTemplateOptions options = new PacketTemplateOptions();
+         return options.locked(locked);
+      }
+
+      /**
+       * @see PacketTemplateOptions#billingCycle
+       */
+      public static PacketTemplateOptions billingCycle(String billingCycle) {
+         PacketTemplateOptions options = new PacketTemplateOptions();
+         return options.billingCycle(billingCycle);
+      }
+      
       /**
        * @see PacketTemplateOptions#userData
        */

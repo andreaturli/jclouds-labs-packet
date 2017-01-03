@@ -21,32 +21,34 @@ import static com.google.common.collect.Iterables.size;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+
 import org.jclouds.packet.compute.internal.BasePacketApiMockTest;
-import org.jclouds.packet.domain.Facility;
+import org.jclouds.packet.domain.SshKey;
 import org.testng.annotations.Test;
 
-@Test(groups = "unit", testName = "FacilityApiMockTest", singleThreaded = true)
-public class FacilityApiMockTest extends BasePacketApiMockTest {
+@Test(groups = "unit", testName = "SshKeyApiMockTest", singleThreaded = true)
+public class SshKeyApiMockTest extends BasePacketApiMockTest {
 
-   public void testListFacilities() throws InterruptedException {
-      server.enqueue(jsonResponse("/facilities.json"));
+   public void testListSshKeys() throws InterruptedException {
+      server.enqueue(jsonResponse("/sshKeys.json"));
 
-      Iterable<Facility> facilities = api.facilityApi().list();
+      List<SshKey> sshKeys = api.sshKeyApi().list();
 
-      assertEquals(size(facilities), 3); 
+      assertEquals(size(sshKeys), 1); 
       assertEquals(server.getRequestCount(), 1);
-      assertSent(server, "GET", "/facilities");
+      assertSent(server, "GET", "/ssh-keys");
    }
 
-   public void testListFacilitiesReturns404() throws InterruptedException {
+   public void testListSshKeysReturns404() throws InterruptedException {
       server.enqueue(response404());
 
-      Iterable<Facility> facilities = api.facilityApi().list();
+      List<SshKey> sshKeys = api.sshKeyApi().list();
 
-      assertTrue(isEmpty(facilities));
+      assertTrue(isEmpty(sshKeys));
 
       assertEquals(server.getRequestCount(), 1);
-      assertSent(server, "GET", "/facilities");
+      assertSent(server, "GET", "/ssh-keys");
    }
 
 }

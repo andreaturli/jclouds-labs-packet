@@ -22,28 +22,28 @@ import static org.testng.util.Strings.isNullOrEmpty;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jclouds.packet.compute.internal.BasePacketApiLiveTest;
-import org.jclouds.packet.domain.OperatingSystem;
+import org.jclouds.packet.domain.Project;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
-@Test(groups = "live", testName = "OperatingSystemApiLiveTest")
-public class OperatingSystemApiLiveTest extends BasePacketApiLiveTest {
+@Test(groups = "live", testName = "ProjectApiLiveTest")
+public class ProjectApiLiveTest extends BasePacketApiLiveTest {
 
-   public void testListOperatingSystems() {
+   public void testListProjects() {
       final AtomicInteger found = new AtomicInteger(0);
-      assertTrue(Iterables.all(api().list(), new Predicate<OperatingSystem>() {
+      assertTrue(Iterables.all(api().list(), new Predicate<Project>() {
          @Override
-         public boolean apply(OperatingSystem input) {
+         public boolean apply(Project input) {
             found.incrementAndGet();
-            return !isNullOrEmpty(input.slug());
+            return !isNullOrEmpty(input.id());
          }
-      }), "All operating systems must have the 'slug' field populated");
-      assertTrue(found.get() > 0, "Expected some operating systems to be returned");
+      }), "All projects must have the 'id' field populated");
+      assertTrue(found.get() > 0, "Expected some projects to be returned");
    }
    
-   private OperatingSystemApi api() {
-      return api.operatingSystemApi();
+   private ProjectApi api() {
+      return api.projectApi();
    }
 }

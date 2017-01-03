@@ -14,13 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jclouds.packet.config;
+package org.jclouds.packet;
 
-/**
- * Configuration properties and constants used in Packet connections.
- */
-public class PacketComputeProperties {
+import org.jclouds.providers.internal.BaseProviderMetadataTest;
+import org.testng.annotations.Test;
 
-   public static final String PROJECT = "jclouds.packet.project";
+@Test(groups = "unit", testName = "PacketProviderMetadataTest")
+public class PacketProviderMetadataTest extends BaseProviderMetadataTest {
+
+   public PacketProviderMetadataTest() {
+      super(new PacketProviderMetadata(), new PacketApiMetadata());
+   }
 
 }

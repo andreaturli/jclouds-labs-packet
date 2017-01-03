@@ -32,13 +32,13 @@ public abstract class OperatingSystem {
     public abstract String id();
     public abstract String slug();
     public abstract String name();
-    public abstract String distro();
+    public abstract String distribution();
     public abstract String version();
     public abstract Set<String> provisionableOn();
 
     @SerializedNames({"id", "slug", "name", "distro", "version", "provisionable_on"})
-    public static OperatingSystem create(String id, String slug, String name, String distro, String version, Set<String> provisionableOn) {
-        return new AutoValue_OperatingSystem(id, slug, name, distro, version,
+    public static OperatingSystem create(String id, String slug, String name, String distribution, String version, Set<String> provisionableOn) {
+        return new AutoValue_OperatingSystem(id, slug, name, distribution, version,
                 provisionableOn == null ? ImmutableSet.<String> of() : ImmutableSet.copyOf(provisionableOn)
         );
     }

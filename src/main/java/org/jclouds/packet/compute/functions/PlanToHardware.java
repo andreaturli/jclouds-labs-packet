@@ -44,21 +44,18 @@ public class PlanToHardware implements Function<Plan, Hardware> {
                 .hypervisor("none")
                 .processors(getProcessors(plan))
                 .ram(getMemory(plan))
-                // TODO .location from plan.availableIn
                 .volumes(getVolumes(plan));
         return builder.build();
     }
 
     private Integer getMemory(Plan plan) {
-        if (plan.specs() != null) {
-            String total = plan.specs().memory().total();
-            if (total.endsWith("GB")) {
-                return Integer.valueOf(total.substring(0, total.length() - 2)) * 1024;
-            } else {
-                throw new IllegalArgumentException("Cannot parse memory: " + plan.specs().memory());
-            }
+        if (plan.specs() == null || plan.specs().drives() == null) return -1;
+        String total = plan.specs().memory().total();
+        if (total.endsWith("GB")) {
+            return Integer.valueOf(total.substring(0, total.length() - 2)) * 1024;
+        } else {
+            throw new IllegalArgumentException("Cannot parse memory: " + plan.specs().memory());
         }
-        return -1; //TODO
     }
 
     private Iterable<Volume> getVolumes(Plan plan) {
@@ -69,7 +66,7 @@ public class PlanToHardware implements Function<Plan, Hardware> {
             public Volume apply(Specs.Drive drive) {
                 return new VolumeImpl(
                         drive.type(),
-                        Volume.Type.LOCAL, // TODO
+                        Volume.Type.LOCAL,
                         Float.parseFloat(drive.size().substring(0, drive.size().length() - 2)), null, true, false);
             }
         });
@@ -81,7 +78,8 @@ public class PlanToHardware implements Function<Plan, Hardware> {
         return Iterables.transform(plan.specs().cpus(), new Function<Specs.CPU, Processor>() {
             @Override
             public Processor apply(Specs.CPU input) {
-                return new Processor(input.count(), 2); // TODO
+                // No cpu speed from Packet API, so assume more cores == faster
+                return new Processor(input.count(), input.count()); 
             }
         });
     }

@@ -30,10 +30,12 @@ import com.google.common.base.Predicate;
  * Packet image distributions.
  */
 public enum Distribution {
-   COREOS(OsFamily.ARCH, "coreos"),
+   
    CENTOS(OsFamily.CENTOS, "centos"),
+   COREOS(OsFamily.COREOS, "coreos"),
    DEBIAN(OsFamily.DEBIAN, "debian"),
    UBUNTU(OsFamily.UBUNTU, "ubuntu"),
+   WINDOWS(OsFamily.WINDOWS, "windows"),
    UNRECOGNIZED(OsFamily.UNRECOGNIZED, "");
 
    private static final List<Distribution> values = asList(Distribution.values());

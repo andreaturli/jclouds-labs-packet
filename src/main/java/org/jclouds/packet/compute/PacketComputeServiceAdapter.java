@@ -51,7 +51,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 
 /**
  * defines the connection between the {@link org.jclouds.packet.PacketApi} implementation and
@@ -80,14 +79,10 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
 
       PacketTemplateOptions templateOptions = template.getOptions().as(PacketTemplateOptions.class);
       checkNotNull(templateOptions.getLoginPrivateKey(), "login privateKey must not be null");
-      // TODO make it configurable
-      Map<String, String> features = Maps.newHashMap();
-      // TODO make it configurable
-      BillingCycle billingCycle = BillingCycle.HOURLY;
-      // TODO make it configurable
-      boolean locked = false;
-
-      String userdata = Optional.fromNullable(templateOptions.getUserData()).or("");
+      Map<String, String> features = templateOptions.getFeatures();
+      BillingCycle billingCycle = BillingCycle.fromValue(templateOptions.getBillingCycle());
+      boolean locked = templateOptions.isLocked();
+      String userdata = templateOptions.getUserData();
       Set<String> tags = templateOptions.getTags();
 
       String plan = template.getHardware().getId();
@@ -111,7 +106,6 @@ public class PacketComputeServiceAdapter implements ComputeServiceAdapter<Device
 
       LoginCredentials defaultCredentials = LoginCredentials.builder()
               .user("root")
-              //.password(device.rootPassword())
               .privateKey(templateOptions.getLoginPrivateKey())
               .build();
 

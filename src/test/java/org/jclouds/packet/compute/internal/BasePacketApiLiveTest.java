@@ -17,6 +17,7 @@
 package org.jclouds.packet.compute.internal;
 
 import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_RUNNING;
+import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_TERMINATED;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Properties;
@@ -36,6 +37,7 @@ import com.google.inject.name.Names;
 public class BasePacketApiLiveTest extends BaseApiLiveTest<PacketApi> {
 
    private Predicate<String> deviceRunning;
+   private Predicate<String> deviceTerminated;
 
    public BasePacketApiLiveTest() {
       provider = "packet";
@@ -55,50 +57,17 @@ public class BasePacketApiLiveTest extends BaseApiLiveTest<PacketApi> {
       Injector injector = newBuilder().modules(modules).overrides(props).buildInjector();
       deviceRunning = injector.getInstance(Key.get(new TypeLiteral<Predicate<String>>(){},
             Names.named(TIMEOUT_NODE_RUNNING)));
+      deviceTerminated = injector.getInstance(Key.get(new TypeLiteral<Predicate<String>>(){},
+              Names.named(TIMEOUT_NODE_TERMINATED)));
       return injector.getInstance(PacketApi.class);
    }
 
    protected void assertNodeRunning(String deviceId) {
-      assertTrue(deviceRunning.apply(deviceId), String.format("Droplet %s did not start in the configured timeout", deviceId));
+      assertTrue(deviceRunning.apply(deviceId), String.format("Device %s did not start in the configured timeout", deviceId));
    }
 
-//   protected Facility firstAvailableRegion() {
-//      return api.facilityApi().list().concat().firstMatch(new Predicate<Facility>() {
-//         @Override
-//         public boolean apply(Facility input) {
-//            return input.available();
-//         }
-//      }).get();
-//   }
-//
-//   protected Size cheapestSizeInRegion(final Region region) {
-//      return sizesByPrice().min(api.sizeApi().list().concat().filter(new Predicate<Size>() {
-//         @Override
-//         public boolean apply(Size input) {
-//            return input.available() && input.regions().contains(region.slug());
-//         }
-//      }));
-//   }
-//
-//   protected Image ubuntuImageInRegion(final Region region) {
-//      return api.imageApi().list().concat().firstMatch(new Predicate<Image>() {
-//         @Override
-//         public boolean apply(Image input) {
-//            return "Ubuntu".equalsIgnoreCase(input.distribution()) && !isNullOrEmpty(input.slug())
-//                  && input.regions().contains(region.slug());
-//         }
-//      }).get();
-//   }
-//
-//   protected static Ordering<Size> sizesByPrice() {
-//      return new Ordering<Size>() {
-//         @Override
-//         public int compare(Size left, Size right) {
-//            return ComparisonChain.start()
-//                  .compare(left.priceHourly(), right.priceHourly())
-//                  .compare(left.priceMonthly(), right.priceMonthly())
-//                  .result();
-//         }
-//      };
-//   }
+   protected void assertNodeTerminated(String deviceId) {
+      assertTrue(deviceTerminated.apply(deviceId), String.format("Device %s was not terminated in the configured timeout", deviceId));
+   }
+
 }

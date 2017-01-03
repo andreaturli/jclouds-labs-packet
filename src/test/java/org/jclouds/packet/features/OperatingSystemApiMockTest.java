@@ -21,32 +21,34 @@ import static com.google.common.collect.Iterables.size;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+
 import org.jclouds.packet.compute.internal.BasePacketApiMockTest;
-import org.jclouds.packet.domain.Facility;
+import org.jclouds.packet.domain.OperatingSystem;
 import org.testng.annotations.Test;
 
-@Test(groups = "unit", testName = "FacilityApiMockTest", singleThreaded = true)
-public class FacilityApiMockTest extends BasePacketApiMockTest {
+@Test(groups = "unit", testName = "OperatingSystemApiMockTest", singleThreaded = true)
+public class OperatingSystemApiMockTest extends BasePacketApiMockTest {
 
-   public void testListFacilities() throws InterruptedException {
-      server.enqueue(jsonResponse("/facilities.json"));
+   public void testListOperatingSystems() throws InterruptedException {
+      server.enqueue(jsonResponse("/operatingSystems.json"));
 
-      Iterable<Facility> facilities = api.facilityApi().list();
+      List<OperatingSystem> operatingSystems = api.operatingSystemApi().list();
 
-      assertEquals(size(facilities), 3); 
+      assertEquals(size(operatingSystems), 14); 
       assertEquals(server.getRequestCount(), 1);
-      assertSent(server, "GET", "/facilities");
+      assertSent(server, "GET", "/operating-systems");
    }
 
-   public void testListFacilitiesReturns404() throws InterruptedException {
+   public void testListOperatingSystemsReturns404() throws InterruptedException {
       server.enqueue(response404());
 
-      Iterable<Facility> facilities = api.facilityApi().list();
+      List<OperatingSystem> operatingSystems = api.operatingSystemApi().list();
 
-      assertTrue(isEmpty(facilities));
+      assertTrue(isEmpty(operatingSystems));
 
       assertEquals(server.getRequestCount(), 1);
-      assertSent(server, "GET", "/facilities");
+      assertSent(server, "GET", "/operating-systems");
    }
 
 }

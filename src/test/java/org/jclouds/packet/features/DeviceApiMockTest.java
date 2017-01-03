@@ -21,32 +21,34 @@ import static com.google.common.collect.Iterables.size;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+
 import org.jclouds.packet.compute.internal.BasePacketApiMockTest;
-import org.jclouds.packet.domain.Facility;
+import org.jclouds.packet.domain.Device;
 import org.testng.annotations.Test;
 
-@Test(groups = "unit", testName = "FacilityApiMockTest", singleThreaded = true)
-public class FacilityApiMockTest extends BasePacketApiMockTest {
+@Test(groups = "unit", testName = "DeviceApiMockTest", singleThreaded = true)
+public class DeviceApiMockTest extends BasePacketApiMockTest {
 
-   public void testListFacilities() throws InterruptedException {
-      server.enqueue(jsonResponse("/facilities.json"));
+   public void testListDevices() throws InterruptedException {
+      server.enqueue(jsonResponse("/devices.json"));
 
-      Iterable<Facility> facilities = api.facilityApi().list();
+      List<Device> devices = api.deviceApi("projectId12345").list();
 
-      assertEquals(size(facilities), 3); 
+      assertEquals(size(devices), 1); 
       assertEquals(server.getRequestCount(), 1);
-      assertSent(server, "GET", "/facilities");
+      assertSent(server, "GET", "/projects/projectId12345/devices");
    }
 
-   public void testListFacilitiesReturns404() throws InterruptedException {
+   public void testListDevicesReturns404() throws InterruptedException {
       server.enqueue(response404());
 
-      Iterable<Facility> facilities = api.facilityApi().list();
+      List<Device> devices = api.deviceApi("projectId12345").list();
 
-      assertTrue(isEmpty(facilities));
+      assertTrue(isEmpty(devices));
 
       assertEquals(server.getRequestCount(), 1);
-      assertSent(server, "GET", "/facilities");
+      assertSent(server, "GET", "/projects/projectId12345/devices");
    }
 
 }

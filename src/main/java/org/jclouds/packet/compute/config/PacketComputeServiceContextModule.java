@@ -18,6 +18,7 @@ package org.jclouds.packet.compute.config;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_RUNNING;
+import static org.jclouds.compute.config.ComputeServiceProperties.TIMEOUT_NODE_TERMINATED;
 import static org.jclouds.util.Predicates2.retry;
 
 import org.jclouds.compute.ComputeServiceAdapter;
@@ -83,11 +84,19 @@ public class PacketComputeServiceContextModule extends
    @Provides
    @Named(TIMEOUT_NODE_RUNNING)
    protected Predicate<String> provideDeviceRunningPredicate(final PacketApi api,
-                                                              @Provider final Supplier<Credentials> creds,
-                                                               ComputeServiceConstants.Timeouts timeouts,
-                                                               ComputeServiceConstants.PollPeriod pollPeriod) {
+                                                             @Provider final Supplier<Credentials> creds,
+                                                             ComputeServiceConstants.Timeouts timeouts,
+                                                             ComputeServiceConstants.PollPeriod pollPeriod) {
       return retry(new DeviceInStatusPredicate(api, creds.get().identity, Device.State.ACTIVE), timeouts.nodeRunning,
               pollPeriod.pollInitialPeriod, pollPeriod.pollMaxPeriod);
+   }
+
+   @Provides
+   @Named(TIMEOUT_NODE_TERMINATED)
+   protected Predicate<String> provideDropletTerminatedPredicate(final PacketApi api, @Provider final Supplier<Credentials> creds, ComputeServiceConstants.Timeouts timeouts,
+                                                                  ComputeServiceConstants.PollPeriod pollPeriod) {
+      return retry(new DeviceTerminatedPredicate(api, creds.get().identity), timeouts.nodeTerminated, pollPeriod.pollInitialPeriod,
+              pollPeriod.pollMaxPeriod);
    }
 
    @VisibleForTesting
@@ -108,6 +117,25 @@ public class PacketComputeServiceContextModule extends
          checkNotNull(input, "device id");
          Device device = api.deviceApi(projectId).get(input);
          return device != null && state == device.state();
+      }
+   }
+
+   @VisibleForTesting
+   static class DeviceTerminatedPredicate implements Predicate<String> {
+
+      private final PacketApi api;
+      private final String projectId;
+
+      public DeviceTerminatedPredicate(PacketApi api, String projectId) {
+         this.api = checkNotNull(api, "api must not be null");
+         this.projectId = checkNotNull(projectId, "projectId must not be null");
+      }
+
+      @Override
+      public boolean apply(String input) {
+         checkNotNull(input, "device id");
+         Device device = api.deviceApi(projectId).get(input);
+         return device == null;
       }
    }
 

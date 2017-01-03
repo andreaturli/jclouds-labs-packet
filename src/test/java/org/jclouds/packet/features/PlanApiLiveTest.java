@@ -22,28 +22,28 @@ import static org.testng.util.Strings.isNullOrEmpty;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jclouds.packet.compute.internal.BasePacketApiLiveTest;
-import org.jclouds.packet.domain.OperatingSystem;
+import org.jclouds.packet.domain.Plan;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
-@Test(groups = "live", testName = "OperatingSystemApiLiveTest")
-public class OperatingSystemApiLiveTest extends BasePacketApiLiveTest {
+@Test(groups = "live", testName = "PlanApiLiveTest")
+public class PlanApiLiveTest extends BasePacketApiLiveTest {
 
-   public void testListOperatingSystems() {
+   public void testListPlans() {
       final AtomicInteger found = new AtomicInteger(0);
-      assertTrue(Iterables.all(api().list(), new Predicate<OperatingSystem>() {
+      assertTrue(Iterables.all(api().list(), new Predicate<Plan>() {
          @Override
-         public boolean apply(OperatingSystem input) {
+         public boolean apply(Plan input) {
             found.incrementAndGet();
             return !isNullOrEmpty(input.slug());
          }
-      }), "All operating systems must have the 'slug' field populated");
-      assertTrue(found.get() > 0, "Expected some operating systems to be returned");
+      }), "All plans must have the 'slug' field populated");
+      assertTrue(found.get() > 0, "Expected some plans to be returned");
    }
    
-   private OperatingSystemApi api() {
-      return api.operatingSystemApi();
+   private PlanApi api() {
+      return api.planApi();
    }
 }
