@@ -34,8 +34,8 @@
 
   <properties>
     <test.packet.endpoint>https://api.packet.net/</test.packet.endpoint>
-    <test.packet.identity>/path/to/cert.p12</test.packet.identity>
-    <test.packet.credential>password to cert</test.packet.credential>
+    <test.packet.identity>projectId</test.packet.identity>
+    <test.packet.credential>api key</test.packet.credential>
     <jclouds.osgi.export>org.jclouds.packet*;version="${project.version}"</jclouds.osgi.export>
     <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
   </properties>
@@ -130,8 +130,6 @@
                 <configuration>
                   <systemPropertyVariables>
                     <test.packet.endpoint>${test.packet.endpoint}</test.packet.endpoint>
-                    <test.packet.api-version>${test.packet.api-version}</test.packet.api-version>
-                    <test.packet.build-version>${test.packet.build-version}</test.packet.build-version>
                     <test.packet.identity>${test.packet.identity}</test.packet.identity>
                     <test.packet.credential>${test.packet.credential}</test.packet.credential>
                   </systemPropertyVariables>

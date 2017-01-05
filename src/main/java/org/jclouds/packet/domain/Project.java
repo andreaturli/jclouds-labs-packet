@@ -16,26 +16,50 @@
  */
 package org.jclouds.packet.domain;
 
-import java.security.PublicKey;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
-import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.json.SerializedNames;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 @AutoValue
 public abstract class Project {
 
     public abstract String id();
     public abstract String name();
-    @Nullable
-    public abstract String fingerprint();
-    @Nullable
-    public abstract PublicKey publicKey();
+    public abstract Date createdAt();
+    public abstract Date updatedAt();
+    public abstract Map<String, Object> maxDevices();
+    public abstract List<Href> members();
+    public abstract List<Href> memberships();
+    public abstract List<Href> invitations();
+    public abstract Href paymentMethod();
+    public abstract List<Href> devices();
+    public abstract List<Href> sshKeys();
+    public abstract List<Href> volumes();
+    public abstract String href();
 
-    @SerializedNames({ "id", "name", "fingerprint", "public_key" })
-    public static Project create(String id, String name, String fingerprint, PublicKey publicKey) {
-        return new AutoValue_Project(id, name, fingerprint, publicKey);
+    @SerializedNames({"id", "name", "created_at", "updated_at", "max_devices", "members", "memberships", "invitations", "payment_method", "devices", "ssh_keys", "volumes", "href"})
+    public static Project create(String id, String name, Date createdAt, Date updatedAt, Map<String, Object> maxDevices,
+                                 List<Href> members, List<Href> memberships, List<Href> invitations, Href paymentMethod,
+                                 List<Href> devices,
+                                 List<Href> sshKeys,
+                                 List<Href> volumes,
+                                 String href) {
+        return new AutoValue_Project(id, name, createdAt, updatedAt,
+                maxDevices == null ? ImmutableMap.<String, Object> of() : ImmutableMap.copyOf(maxDevices),
+                members == null ? ImmutableList.<Href> of() : ImmutableList.copyOf(members),
+                memberships == null ? ImmutableList.<Href> of() : ImmutableList.copyOf(memberships),
+                invitations == null ? ImmutableList.<Href> of() : ImmutableList.copyOf(invitations),
+                paymentMethod,
+                devices == null ? ImmutableList.<Href> of() : ImmutableList.copyOf(devices),
+                sshKeys == null ? ImmutableList.<Href> of() : ImmutableList.copyOf(sshKeys),
+                volumes == null ? ImmutableList.<Href> of() : ImmutableList.copyOf(volumes),
+                href);
     }
 
     Project() {}

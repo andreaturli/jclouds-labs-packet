@@ -24,12 +24,6 @@ import org.jclouds.json.SerializedNames;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
-/**
-* {"id":"e69c0169-4726-46ea-98f1-939c9e8a3607","slug":"baremetal_0","name":"Type 0","description":"Our Type 0 configuration is a general use \"cloud killer\" server, with a Intel Atom 2.4Ghz processor and 8GB of RAM.","line":"baremetal",
-  "specs":{"cpus":[{"count":1,"type":"Intel Atom C2550 @ 2.4Ghz"}],"memory":{"total":"8GB"},"drives":[{"count":1,"size":"80GB","type":"SSD"}],"nics":[{"count":2,"type":"1Gbps"}],
-  "features":{"raid":false,"txt":true}},"available_in":[{"href":"/facilities/2b70eb8f-fa18-47c0-aba7-222a842362fd"},{"href":"/facilities/8e6470b3-b75e-47d1-bb93-45b225750975"}],
-  "pricing":{"hour":0.05}}
- */
 @AutoValue
 public abstract class Plan {
 
