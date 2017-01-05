@@ -24,9 +24,6 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
-/**
- * Packet billing cycle
- */
 public enum BillingCycle {
    HOURLY("hourly"),
    MONTHLY("monthly"),

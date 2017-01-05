@@ -25,36 +25,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-/**
- *     "specs": {
- "cpus": [
- {
- "count": 1,
- "type": "Intel Atom C2550 @ 2.4Ghz"
- }
- ],
- "memory": {
- "total": "8GB"
- },
- "drives": [
- {
- "count": 1,
- "size": "80GB",
- "type": "SSD"
- }
- ],
- "nics": [
- {
- "count": 2,
- "type": "1Gbps"
- }
- ],
- "features": {
- "raid": false,
- "txt": true
- }
- }
- */
 @AutoValue
 public abstract class Specs {
 

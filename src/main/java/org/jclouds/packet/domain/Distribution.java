@@ -26,11 +26,8 @@ import org.jclouds.compute.domain.OsFamily;
 
 import com.google.common.base.Predicate;
 
-/**
- * Packet image distributions.
- */
 public enum Distribution {
-   
+
    CENTOS(OsFamily.CENTOS, "centos"),
    COREOS(OsFamily.COREOS, "coreos"),
    DEBIAN(OsFamily.DEBIAN, "debian"),

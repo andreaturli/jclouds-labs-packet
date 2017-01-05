@@ -16,6 +16,8 @@
  */
 package org.jclouds.packet.domain;
 
+import java.util.Date;
+
 import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.json.SerializedNames;
 
@@ -39,13 +41,13 @@ public abstract class SshKey {
     public abstract String label();
     public abstract String key();
     public abstract String fingerprint();
-    public abstract String createdAt();
-    public abstract String updatedAt();
+    public abstract Date createdAt();
+    public abstract Date updatedAt();
     @Nullable public abstract Owner owner();
     public abstract String href();
 
     @SerializedNames({"id", "label", "key", "fingerprint", "created_at", "updated_at", "owner", "href"})
-    public static SshKey create(String id, String label, String key, String fingerprint, String createdAt, String updatedAt, Owner owner, String href) {
+    public static SshKey create(String id, String label, String key, String fingerprint, Date createdAt, Date updatedAt, Owner owner, String href) {
         return new AutoValue_SshKey(id, label, key, fingerprint, createdAt, updatedAt, owner, href);
     }
 

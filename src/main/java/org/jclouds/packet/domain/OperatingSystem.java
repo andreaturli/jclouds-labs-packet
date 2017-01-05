@@ -23,9 +23,6 @@ import org.jclouds.json.SerializedNames;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 
-/**
- * {"id":"06e21644-a769-11e6-80f5-76304dec7eb7","slug":"alpine_3","name":"Alpine 3","distro":"alpine","version":"3","provisionable_on":[]}
- */
 @AutoValue
 public abstract class OperatingSystem {
 

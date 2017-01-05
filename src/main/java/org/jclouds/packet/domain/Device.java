@@ -18,6 +18,7 @@ package org.jclouds.packet.domain;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.util.Date;
 import java.util.List;
 
 import org.jclouds.javax.annotation.Nullable;
@@ -54,8 +55,8 @@ public abstract class Device {
     public abstract String iqn();
     public abstract Boolean locked();
     public abstract String bondingMode();
-    public abstract String createdAt();
-    public abstract String updatedAt();
+    public abstract Date createdAt();
+    public abstract Date updatedAt();
     public abstract OperatingSystem operatingSystem();
     public abstract Facility facility();
     public abstract Href project();
@@ -79,8 +80,8 @@ public abstract class Device {
                                 String iqn,
                                 Boolean locked,
                                 String bondingMode,
-                                String createdAt,
-                                String updatedAt,
+                                Date createdAt,
+                                Date updatedAt,
                                 OperatingSystem operatingSystem,
                                 Facility facility,
                                 Href project,
